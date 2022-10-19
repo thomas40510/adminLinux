@@ -5,6 +5,13 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
+all(){
+  update
+  upgrade
+  config_sys
+  sys_state
+}
+
 update(){
 	sudo apt-get update
 }
@@ -94,7 +101,7 @@ parse_params() {
   args=("$@")
 
   # check required params and arguments
-  [[ -z "${param-}" ]] && die "Missing required parameter: param"
+  [[ -z "${param-}" ]] && all
   [[ ${#args[@]} -eq 0 ]] && die "Missing script arguments"
 
   return 0
